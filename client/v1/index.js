@@ -12,12 +12,13 @@ const MY_FAVORITE_BRANDS = [{
 }, {
   'name': 'ADRESSE',
   'url': 'https://adresse.paris/'
-}];
+    }];
+
 
 console.table(MY_FAVORITE_BRANDS);
 console.log(MY_FAVORITE_BRANDS[0]);
 
-
+git commit
 
 /**
  * 🌱
@@ -32,8 +33,8 @@ console.log(MY_FAVORITE_BRANDS[0]);
 // I can find on these e-shops
 // 2. Log the variable
 
-
-
+const cheapest = 'https://adresse.paris/vestes/4256-sorbonne-laine-laminee-1300000263740.html'
+console.log(cheapest)
 
 
 /**
@@ -47,13 +48,31 @@ console.log(MY_FAVORITE_BRANDS[0]);
 
 // 🎯 TODO: Number of products
 // 1. Create a variable and assign it the number of products
-// 2. Log the variable
+
+var NumberOfProducts = marketplace.length
+console.log(NumberOfProducts)
 
 
 // 🎯 TODO: Brands name
 // 1. Create a variable and assign it the list of brands name only
 // 2. Log the variable
 // 3. Log how many brands we have
+console.log('affichage des marques')
+var brands = []
+for (var i = 0; i < marketplace.length; i++) {
+    if (!(brands.includes(marketplace[i].brand))) {
+        brands.push(marketplace[i]['brand'])
+    }
+}
+console.log(brands);
+console.log(brands.length);
+//====Autre methode=========
+var brandNames = []
+marketplace.forEach(obj => brandNames.push(obj.brand))
+console.log(brandNames)
+
+const uniqueBrandNames = new Set(brandNames)
+console.log(uniqueBrandNames.size)
 
 
 // 🎯 TODO: Sort by price
