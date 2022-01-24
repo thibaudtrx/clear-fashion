@@ -48,6 +48,7 @@ console.log(cheapest)
 // 🎯 TODO: Number of products
 // 1. Create a variable and assign it the number of products
 
+console.log('Number of products')
 var NumberOfProducts = marketplace.length
 console.log(NumberOfProducts)
 
@@ -56,7 +57,7 @@ console.log(NumberOfProducts)
 // 1. Create a variable and assign it the list of brands name only
 // 2. Log the variable
 // 3. Log how many brands we have
-console.log('affichage des marques')
+console.log('Brands name')
 var brands = []
 for (var i = 0; i < marketplace.length; i++) {
     if (!(brands.includes(marketplace[i].brand))) {
@@ -66,6 +67,7 @@ for (var i = 0; i < marketplace.length; i++) {
 console.log(brands);
 console.log(brands.length);
 //====Autre methode=========
+console.log('Brands name')
 var brandNames = []
 marketplace.forEach(obj => brandNames.push(obj.brand))
 console.log(brandNames)
@@ -79,22 +81,46 @@ console.log(uniqueBrandNames.size)
 // 2. Create a variable and assign it the list of products by price from lowest to highest
 // 3. Log the variable
 
+console.log('Sort by price')
+var sortedprice = []
+sortedprice = marketplace.sort((a, b) => Number(a.price) - Number(b.price));
+console.log("lowest to highest price", sortedprice);
 
 // 🎯 TODO: Sort by date
 // 1. Create a function to sort the marketplace objects by products date
 // 2. Create a variable and assign it the list of products by date from recent to old
 // 3. Log the variable
-
+console.log('Sort by Date')
+var sorteddate = []
+sorteddate = marketplace.sort(function(a,b){
+  return new Date(b.date) - new Date(a.date);
+});
+console.log("from recent to old", sorteddate);
 
 // 🎯 TODO: Filter a specific price range
 // 1. Filter the list of products between 50€ and 100€
 // 2. Log the list
 
+console.log('Filter between 50 and 100euros')
+var product = []
+for(var i=0, length = marketplace.length; i<length; i++){ 
+  if(marketplace[i].price >= 50 && marketplace[i].price <= 100){
+    product.push(marketplace[i]) 
+  }
+}
+console.log(product)
 
 // 🎯 TODO: Average Basket
 // 1. Determine the average basket of the marketplace
 // 2. Log the average
+console.log('Average basket')
+var prices = []
+for(var i=0, length = marketplace.length; i<length; i++){ 
+  prices.push(marketplace[i].price)  
+}
+var result = Math.round(prices.reduce(function (a, b) { return a + b }) / prices.length)
 
+console.log(result)
 
 
 
@@ -121,6 +147,15 @@ console.log(uniqueBrandNames.size)
 //
 // 2. Log the variable
 // 3. Log the number of products by brands
+
+
+const brands = {
+  'adresse' : [{'Sorbonne Laine laminée Caramel'}],
+  'loom' : [{},{}],
+  'aatise' : [{},{}],
+  '1083' : [{},{}],
+  'dedicated' : [{},{}]
+};
 
 
 // 🎯 TODO: Sort by price for each brand
@@ -223,6 +258,8 @@ const COTELE_PARIS = [
 // // 1. Log if we have new products only (true or false)
 // // A new product is a product `released` less than 2 weeks.
 
+var currentTime = new Date();
+currentTime.setDate(currentTime.getDate()-14);
 
 // 🎯 TODO: Reasonable price
 // // 1. Log if coteleparis is a reasonable price shop (true or false)
