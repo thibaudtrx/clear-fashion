@@ -75,6 +75,7 @@ const renderProducts = products => {
  * Render page selector
  * @param  {Object} pagination
  */
+
 const renderPagination = pagination => {
   const {currentPage, pageCount} = pagination;
   const options = Array.from(
@@ -84,7 +85,7 @@ const renderPagination = pagination => {
 
   selectPage.innerHTML = options;
   selectPage.selectedIndex = currentPage - 1;
-};
+}; 
 
 /**
  * Render page selector
@@ -110,11 +111,20 @@ const render = (products, pagination) => {
  * Select the number of products to display
  * @type {[type]}
  */
+
 selectShow.addEventListener('change', event => {
   fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
     .then(setCurrentProducts)
     .then(() => render(currentProducts, currentPagination));
 });
+
+
+selectPage.addEventListener('change', event => {
+  fetchProducts(currentPagination.pageSize = parseInt(event.target.value))
+    .then(setCurrentProducts)
+    .then(() => render(currentProducts, currentPagination));
+});
+
 
 document.addEventListener('DOMContentLoaded', () =>
   fetchProducts()

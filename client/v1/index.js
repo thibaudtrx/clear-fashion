@@ -148,14 +148,13 @@ console.log(result)
 // 2. Log the variable
 // 3. Log the number of products by brands
 
-
-const brands = {
-  'adresse' : [{'Sorbonne Laine laminée Caramel'}],
-  'loom' : [{},{}],
-  'aatise' : [{},{}],
-  '1083' : [{},{}],
-  'dedicated' : [{},{}]
-};
+var groupbyBrand = marketplace.reduce(function(groups, item) {
+	const val = item["brand"]
+	groups[val] = groups[val] || []
+	groups[val].push(item)
+	return groups
+}, {});
+console.log(groupbyBrand)
 
 
 // 🎯 TODO: Sort by price for each brand
