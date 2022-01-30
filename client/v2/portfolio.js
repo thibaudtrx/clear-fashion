@@ -112,6 +112,7 @@ const render = (products, pagination) => {
  * @type {[type]}
  */
 
+/*
 selectShow.addEventListener('change', event => {
   fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
     .then(setCurrentProducts)
@@ -124,7 +125,20 @@ selectPage.addEventListener('change', event => {
     .then(setCurrentProducts)
     .then(() => render(currentProducts, currentPagination));
 });
+*/
+selectShow.addEventListener('change', event => {
+  currentPagination.pageSize = parseInt(event.target.value);
+  fetchProducts(currentPagination.currentPage, currentPagination.pageSize)
+    .then(setCurrentProducts)
+    .then(() => render(currentProducts, currentPagination));
+});
 
+selectPage.addEventListener('change', event => {
+  currentPagination.currentPage = parseInt(event.target.value);
+  fetchProducts(currentPagination.currentPage, currentPagination.pageSize)
+  .then(setCurrentProducts)
+  .then(() => render(currentProducts, currentPagination));
+});
 
 document.addEventListener('DOMContentLoaded', () =>
   fetchProducts()
