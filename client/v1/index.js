@@ -148,6 +148,7 @@ console.log(result)
 // 2. Log the variable
 // 3. Log the number of products by brands
 
+console.log('Group by')
 var groupbyBrand = marketplace.reduce(function(groups, item) {
 	const val = item["brand"]
 	groups[val] = groups[val] || []
@@ -155,17 +156,29 @@ var groupbyBrand = marketplace.reduce(function(groups, item) {
 	return groups
 }, {});
 console.log(groupbyBrand)
-
+const val = Object.values(groupbyBrand);
+var nb_per_brand = new Object();
+val.forEach(a => nb_per_brand[a[0].brand] = a.length);
+console.log(nb_per_brand);
 
 // 🎯 TODO: Sort by price for each brand
 // 1. For each brand, sort the products by price, from highest to lowest
 // 2. Log the sort
-
+var sortbrand = new Object(); 
+val.forEach(a => sortbrand[a[0].brand] = (a.sort((b,c) => b.price - c.price)))
+console.log(sortbrand);
 
 // 🎯 TODO: Sort by date for each brand
 // 1. For each brand, sort the products by date, from old to recent
 // 2. Log the sort
-
+var sortbrand_date = new Object(); 
+val.forEach(a => sortbrand_date[a[0].brand] = (a.sort(function(a,b){
+	if (a.date<b.date) {
+		return -1;
+	} else {
+		return 1;
+  }})))
+console.log(sortbrand_date);
 
 
 
@@ -181,7 +194,13 @@ console.log(groupbyBrand)
 // 1. Compute the p90 price value of each brand
 // The p90 value (90th percentile) is the lower value expected to be exceeded in 90% of the products
 
+var p90 = new Object();
 
+for (const [key, value] of Object.entries(sortbrand)){
+	let pos = Math.round(value.length * 0.1);
+	p90[key] = value[pos].price;
+};
+console.log(p90);
 
 
 
@@ -263,17 +282,23 @@ currentTime.setDate(currentTime.getDate()-14);
 // 🎯 TODO: Reasonable price
 // // 1. Log if coteleparis is a reasonable price shop (true or false)
 // // A reasonable price if all the products are less than 100€
-
+var reasonable_price = "True";
+COTELE_PARIS.forEach(function(a) { if (a.price>100) {reasonable_price = "False"; };})
+console.log(reasonable_price);
 
 // 🎯 TODO: Find a specific product
 // 1. Find the product with the uuid `b56c6d88-749a-5b4c-b571-e5b5c6483131`
 // 2. Log the product
+var product = new Object();
 
+COTELE_PARIS.forEach(function(a) { if (a.uuid == `b56c6d88-749a-5b4c-b571-e5b5c6483131`) {product = a;}});
+console.log(product.name);
 
 // 🎯 TODO: Delete a specific product
 // 1. Delete the product with the uuid `b56c6d88-749a-5b4c-b571-e5b5c6483131`
 // 2. Log the new list of product
-
+const COTELE_PARIS_V2 = COTELE_PARIS.filter(a => a.uuid != `b56c6d88-749a-5b4c-b571-e5b5c6483131`);
+console.log(COTELE_PARIS_V2);
 // 🎯 TODO: Save the favorite product
 let blueJacket = {
   'link': 'https://coteleparis.com/collections/tous-les-produits-cotele/products/la-veste-bleu-roi',
@@ -288,6 +313,8 @@ let jacket = blueJacket;
 jacket.favorite = true;
 
 // 1. Log `blueJacket` and `jacket` variables
+console.log(blueJacket);
+console.log(jacket);
 // 2. What do you notice?
 
 blueJacket = {
@@ -298,7 +325,11 @@ blueJacket = {
 
 // 3. Update `jacket` property with `favorite` to true WITHOUT changing blueJacket properties
 
+jacket = {...blueJacket};
+jacket.favorite = true;
 
+console.log(blueJacket);
+console.log(jacket);
 
 
 
@@ -311,3 +342,5 @@ blueJacket = {
 // 🎯 TODO: Save in localStorage
 // 1. Save MY_FAVORITE_BRANDS in the localStorage
 // 2. log the localStorage
+localStorage.setItem('fav_brand', JSON.stringify(MY_FAVORITE_BRANDS));
+console.log(localStorage);
