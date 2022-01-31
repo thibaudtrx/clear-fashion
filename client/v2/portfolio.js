@@ -4,12 +4,14 @@
 // current products on the page
 let currentProducts = [];
 let currentPagination = {};
+let filterBrand = "noFilter";
 
 // inititiqte selectors
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
+const selectBrand = document.querySelector('#brand-select'); 
 
 /**
  * Set global value
@@ -33,7 +35,24 @@ const fetchProducts = async (page = 1, size = 12) => {
       `https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
     );
     const body = await response.json();
+    var groupbyBrand = body.data.result.reduce(function(groups, item) { //create bybrand options
+      const val = item["brand"]
+      groups[val] = groups[val] || []
+      groups[val].push(item)
+      return groups
+    }, {});
+    var selectBox = document.getElementById('brand-select');
+    selectBox.options.length=0;
+    selectBox.options.add( new Option("-", "noFilter", false));
+    for (var i =0, l = Object.keys(groupbyBrand).length; i< l; i++){
+      var option = Object.keys(groupbyBrand)[i];
+      selectBox.options.add( new Option(option, option, false));
+    }
+    selectBox.options.add(new Option("No filter", "noFilter", false));
 
+    if (filterBrand!="noFilter"){
+      body.data.result = groupbyBrand[filterBrand]
+    }
     if (body.success !== true) {
       console.error(body);
       return {currentProducts, currentPagination};
@@ -45,6 +64,7 @@ const fetchProducts = async (page = 1, size = 12) => {
     return {currentProducts, currentPagination};
   }
 };
+
 
 /**
  * Render list of products
@@ -139,6 +159,20 @@ selectPage.addEventListener('change', event => {
   .then(setCurrentProducts)
   .then(() => render(currentProducts, currentPagination));
 });
+
+selectBrand.addEventListener('change', event => {
+  filterBrand = event.target.value;
+  fetchProducts(currentPagination.currentPage, currentPagination.pageSize)
+  .then(setCurrentProducts)
+  .then(() => render(currentProducts, currentPagination));
+});
+
+
+
+
+
+
+
 
 document.addEventListener('DOMContentLoaded', () =>
   fetchProducts()
