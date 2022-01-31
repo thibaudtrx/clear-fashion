@@ -110,8 +110,8 @@ for(var i=0, length = marketplace.length; i<length; i++){
 }
 console.log(product)
 
-// 🎯 TODO: Average Basket
-// 1. Determine the average basket of the marketplace
+// 🎯 TODO: Average price
+// 1. Determine the average price of the marketplace
 // 2. Log the average
 console.log('Average basket')
 var prices = []
