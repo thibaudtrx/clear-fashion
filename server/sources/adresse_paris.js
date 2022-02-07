@@ -1,28 +1,3 @@
-/* eslint-disable no-console, no-process-exit */
-const dedicatedbrand = require('./sources/dedicatedbrand');
-
-async function sandbox (eshop = 'https://www.dedicatedbrand.com/en/men/news') {
-  try {
-    console.log(`🕵️‍♀️  browsing ${eshop} source`);
-
-    const products = await dedicatedbrand.scrape(eshop);
-
-    console.log(products);
-    console.log('done');
-    process.exit(0);
-  } catch (e) {
-    console.error(e);
-    process.exit(1);
-  }
-}
-
-const [,, eshop] = process.argv;
-
-sandbox(eshop);
-
-
-//=====================
-
 const fetch = require('node-fetch');
 const cheerio = require('cheerio');
 
@@ -34,16 +9,16 @@ const cheerio = require('cheerio');
 const parse = data => {
   const $ = cheerio.load(data);
 
-  return $('.productList-container .productList')
+  return $('.product-container')
     .map((i, element) => {
       const name = $(element)
-        .find('.productList-title')
+        .find('.product-reference')
+        //.attr('.title')
         .text()
-        .trim()
-        .replace(/\s/g, ' ');
+        ;
       const price = parseInt(
         $(element)
-          .find('.productList-price')
+          .find('.product-price')
           .text()
       );
 
