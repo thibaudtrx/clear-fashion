@@ -3,6 +3,7 @@ const dedicatedbrand = require('./sources/dedicatedbrand');
 const fetch = require("node-fetch");
 
 
+
 async function sandbox (eshop = 'https://www.dedicatedbrand.com/en/men/news') {
   try {
     console.log(`🕵️‍♀️  browsing ${eshop} source`);
@@ -12,6 +13,8 @@ async function sandbox (eshop = 'https://www.dedicatedbrand.com/en/men/news') {
     console.log(products);
     console.log(products.length)
     console.log('done');
+    var json = JSON.stringify(products, null, 2);
+      fs.writeFileSync('sites/products-dedi.json', json);
     process.exit(0);
   } catch (e) {
     console.error(e);
@@ -22,6 +25,7 @@ async function sandbox (eshop = 'https://www.dedicatedbrand.com/en/men/news') {
 const [,, eshop] = process.argv;
 
 sandbox(eshop);
+
 
 
 
