@@ -1,6 +1,7 @@
 const cors = require('cors');
 const express = require('express');
 const helmet = require('helmet');
+const db = require('../db');
 
 const PORT = 8092;
 
@@ -21,3 +22,11 @@ app.get('/', (request, response) => {
 app.listen(PORT);
 
 console.log(`📡 Running on port ${PORT}`);
+
+
+// For all the products 
+app.get('/products', async(request, response) => {
+  products = await db.findAllProducts(true)
+  console.log(products.length)
+  response.send({"products" : products});
+})
