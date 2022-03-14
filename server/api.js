@@ -19,14 +19,22 @@ app.get('/', (request, response) => {
   response.send({'ack': true});
 });
 
-app.listen(PORT);
 
 console.log(`📡 Running on port ${PORT}`);
 
 
 // For all the products 
 app.get('/products', async(request, response) => {
-  products = await db.findAllProducts(true)
-  console.log(products.length)
+  products = await db.findProducts(true)
   response.send({"products" : products});
 })
+
+
+async function main(){
+  await connection();
+  app.listen(PORT);
+  //await request();
+  //await db.close();
+}
+
+main();
