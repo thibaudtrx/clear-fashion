@@ -24,16 +24,19 @@ console.log(`📡 Running on port ${PORT}`);
 
 
 // For all the products 
+async function All()
 app.get('/products', async(request, response) => {
   products = await db.findProducts(true)
   response.send({"products" : products});
+  console.log('good')
 })
 
 
 async function main(){
-  await connection();
+
   app.listen(PORT);
-  //await request();
+
+  await All();
   //await db.close();
 }
 

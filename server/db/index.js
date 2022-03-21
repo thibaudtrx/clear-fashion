@@ -1,38 +1,41 @@
-require('dotenv').config();
 const {MongoClient} = require('mongodb');
-
-const MONGODB_DB_NAME = 'clearfashion';
+const MONGODB_DB_NAME = 'Cluster0';
 const MONGODB_COLLECTION = 'products';
 const MONGODB_URI = 'mongodb+srv://thibaudtrx:tbcRoZeGgkPysSrx@cluster0.bcgnp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
-let client
-let db
-let database = null;
-var adresse_products = require('../sites/adresse_products.json');
-var dedicated_products = require('../sites/dedicated_products.json');
-var montlimart_products = require('../sites/montlimart_products.json');
-var products = adresse_products.concat(dedicated_products,montlimart_products);
+let client = null;
 
-/**
- * Get db connection
- * @type {MongoClient}
- */
- module.exports.connect = async (uri = MONGODB_URI, name = MONGODB_DB_NAME) => { 
-  console.log("⏳ Connection to MongoDB...");
+var adresseP = require('../sites/adresse_products.json');
+var dedicated = require('../sites/dedicated_products.json');
+var montlimart = require('../sites/montlimart_products.json');
+var products = adresseP.concat(dedicated, montlimart);
+
+let db;
+
+async function Connect(){
+  console.log('wsh')
   client = await MongoClient.connect(MONGODB_URI, {'useNewUrlParser': true});
-  console.log("🎯 Connection Successful");
-  db =  client.db(MONGODB_DB_NAME)
+  console.log("Connection Successful");
+  db =  await client.db(MONGODB_DB_NAME);
 }
 
-/**
- * Close the connection
- */
-module.exports.close = async () => {
+async function Close(){
   await client.close();
-  console.log('🚨 MongoClient.close...');
-};
+  console.log("Connection Closed");
+}
+
+async function InsertProduct(){ 
+  await db.createCollection("products");
+  const collection = await db.collection('products');
+  //console.log(typeof(products));
+  const result = await collection.insertMany(products);
+  //console.log(result);
+}
 
 async function main(){
-  await db.connect();
-  await db.close();
+  await Connect();
+  await InsertProduct();
+  await Close();
 }
+
+main()
