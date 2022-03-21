@@ -1,85 +1,38 @@
 require('dotenv').config();
 const {MongoClient} = require('mongodb');
-const fs = require('fs');
 
 const MONGODB_DB_NAME = 'clearfashion';
 const MONGODB_COLLECTION = 'products';
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = 'mongodb+srv://thibaudtrx:tbcRoZeGgkPysSrx@cluster0.bcgnp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
-let client = null;
+let client
+let db
 let database = null;
+var adresse_products = require('../sites/adresse_products.json');
+var dedicated_products = require('../sites/dedicated_products.json');
+var montlimart_products = require('../sites/montlimart_products.json');
+var products = adresse_products.concat(dedicated_products,montlimart_products);
 
 /**
  * Get db connection
  * @type {MongoClient}
  */
-const getDB = module.exports.getDB = async () => {
-  try {
-    if (database) {
-      console.log('💽  Already Connected');
-      return database;
-    }
-
-    client = await MongoClient.connect(MONGODB_URI, {'useNewUrlParser': true});
-    database = client.db(MONGODB_DB_NAME);
-
-    console.log('💽  Connected');
-
-    return database;
-  } catch (error) {
-    console.error('🚨 MongoClient.connect...', error);
-    return null;
-  }
-};
-
-/**
- * Insert list of products
- * @param  {Array}  products
- * @return {Object}
- */
-module.exports.insert = async products => {
-  try {
-    const db = await getDB();
-    const collection = db.collection(MONGODB_COLLECTION);
-    // More details
-    // https://docs.mongodb.com/manual/reference/method/db.collection.insertMany/#insert-several-document-specifying-an-id-field
-    const result = await collection.insertMany(products, {'ordered': false});
-
-    return result;
-  } catch (error) {
-    console.error('🚨 collection.insertMany...', error);
-    fs.writeFileSync('products.json', JSON.stringify(products));
-    return {
-      'insertedCount': error.result.nInserted
-    };
-  }
-};
-
-/**
- * Find products based on query
- * @param  {Array}  query
- * @return {Array}
- */
-module.exports.find = async query => {
-  try {
-    const db = await getDB();
-    const collection = db.collection(MONGODB_COLLECTION);
-    const result = await collection.find(query).toArray();
-
-    return result;
-  } catch (error) {
-    console.error('🚨 collection.find...', error);
-    return null;
-  }
-};
+ module.exports.connect = async (uri = MONGODB_URI, name = MONGODB_DB_NAME) => { 
+  console.log("⏳ Connection to MongoDB...");
+  client = await MongoClient.connect(MONGODB_URI, {'useNewUrlParser': true});
+  console.log("🎯 Connection Successful");
+  db =  client.db(MONGODB_DB_NAME)
+}
 
 /**
  * Close the connection
  */
 module.exports.close = async () => {
-  try {
-    await client.close();
-  } catch (error) {
-    console.error('🚨 MongoClient.close...', error);
-  }
+  await client.close();
+  console.log('🚨 MongoClient.close...');
 };
+
+async function main(){
+  await db.connect();
+  await db.close();
+}
