@@ -4,7 +4,7 @@ const fs = require('fs');
 const {MongoClient} = require('mongodb');
 const MONGODB_DB_NAME = 'Cluster0';
 const MONGODB_COLLECTION = 'products';
-const MONGODB_URI = 'mongodb+srv://thibaudtrx:tbcRoZeGgkPysSrx@cluster0.bcgnp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+const MONGODB_URI = 'mongodb+srv://thibaudtrx:0Cvk1aPSaWOWcitO@cluster0.wdgn0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
 
 let client = null;
