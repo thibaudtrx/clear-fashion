@@ -8,7 +8,7 @@ const MONGODB_URI = 'mongodb+srv://ThomasRiv:esilv@clearfashion.21byd.mongodb.ne
 
 let client = null;
 let database = null;
-console.log("geee")
+
 /**
  * Get db connection
  * @type {MongoClient}
