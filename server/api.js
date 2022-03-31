@@ -129,8 +129,6 @@ app.get("/products", async(request, response)=>{
         console.log("default");
         products = await collection.find(filter);
     }
-    //products=products.slice(0,limit);
-    console.log(products.length);
     response.send(products);
 
   } catch (error){
