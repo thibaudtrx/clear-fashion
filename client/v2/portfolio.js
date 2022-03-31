@@ -167,9 +167,33 @@ selectBrand.addEventListener('change', event => {
 });
 
 
+selectFilterReasonable.addEventListener('change', event => {
+  filterReasonable = event.target.value;
+  fetchProducts(currentPagination.currentPage, currentPagination.pageSize)
+  .then(setCurrentProducts)
+  .then(() => render(currentProducts, currentPagination));
+});
 
+selectFilterRecent.addEventListener('change', event => {
+  filterRecent = event.target.value;
+  fetchProducts(currentPagination.currentPage, currentPagination.pageSize)
+  .then(setCurrentProducts)
+  .then(() => render(currentProducts, currentPagination));
+});
 
+selectSort.addEventListener('change', event => {
+  sortFilter = event.target.value;
+  fetchProducts(currentPagination.currentPage, currentPagination.pageSize)
+  .then(setCurrentProducts)
+  .then(() => render(currentProducts, currentPagination));
+});
 
+selectFilterFavorite.addEventListener('change', event => {
+  filterFavorite = event.target.value;
+  fetchProducts(currentPagination.currentPage, currentPagination.pageSize)
+  .then(setCurrentProducts)
+  .then(() => render(currentProducts, currentPagination));
+});
 
 
 
