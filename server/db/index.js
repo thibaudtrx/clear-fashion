@@ -1,10 +1,11 @@
 require('dotenv').config();
-const {MongoClient} = require('mongodb');
 const fs = require('fs');
 
-const MONGODB_DB_NAME = 'clearfashion';
+const {MongoClient} = require('mongodb');
+const MONGODB_DB_NAME = 'Cluster0';
 const MONGODB_COLLECTION = 'products';
-const MONGODB_URI = 'mongodb+srv://ThomasRiv:esilv@clearfashion.21byd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+const MONGODB_URI = 'mongodb+srv://thibaudtrx:tbcRoZeGgkPysSrx@cluster0.bcgnp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+
 
 let client = null;
 let database = null;
@@ -60,11 +61,14 @@ module.exports.insert = async products => {
  * @param  {Array}  query
  * @return {Array}
  */
-module.exports.find = async query => {
+module.exports.find = async (offset,query,limit) => {
   try {
     const db = await getDB();
     const collection = db.collection(MONGODB_COLLECTION);
-    const result = await collection.find(query).toArray();
+    const result = await db.collection("products").find(query)
+    .skip(offset)
+    .limit(limit)
+    .toArray();
 
     return result;
   } catch (error) {
@@ -73,6 +77,11 @@ module.exports.find = async query => {
   }
 };
 
+module.exports.docu = async() =>{
+  const db = await getDB();
+  const collection = db.collection(MONGODB_COLLECTION);
+  return await collection.estimatedDocumentCount();
+}
 /**
  * Close the connection
  */

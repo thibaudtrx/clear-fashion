@@ -5,6 +5,11 @@
 let currentProducts = [];
 let currentPagination = {};
 let filterBrand = "noFilter";
+let filterRecent = "no";
+let filterReasonable = "no";
+let sortFilter = "notSorted"; 
+let setFavorite = new Set();
+let filterFavorite = "no";
 
 // instantiate the selectors
 const selectShow = document.querySelector('#show-select');
