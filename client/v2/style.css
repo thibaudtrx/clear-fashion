@@ -1,0 +1,36 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    
+    }
+   body {
+    background-color: rgb(200, 228, 148); 
+    font-family: Verdana, sans-serif; 
+    font-size: 100%;
+    
+    }
+
+   h1 {
+    font-size: 400%; 
+    color: rgb(24, 17, 51); 
+    text-align: center;
+    background-image:url(vetements.jpg);
+    }
+   h2 {
+    font-size: 150%; 
+    color: rgb(24, 17, 51); 
+    padding-left: 15px;
+
+    }
+   p,ul,li,td {
+    color: black; 
+    margin: 10px 50px 10px;
+    }
+   a:link {
+    color: green;
+    text-decoration: underline;
+    }
+
+
+  
