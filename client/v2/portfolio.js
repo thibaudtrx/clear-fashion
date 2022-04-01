@@ -16,7 +16,7 @@ const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
-const selectBrand = document.querySelector('#brand-select'); 
+const selectBrand = document.querySelector('#brand-select');
 const spanNbNewProducts = document.querySelector('#nbNewProducts')
 const spanP50 = document.querySelector('#p50');
 const spanP90 = document.querySelector('#p90');
@@ -128,7 +128,6 @@ const fetchProducts = async (page = 1, size = 12) => {
   }
 };
 
-
 /**
  * Render list of products
  * @param  {Array} products
@@ -174,16 +173,55 @@ const renderPagination = pagination => {
  * Render page selector
  * @param  {Object} pagination
  */
-const renderIndicators = pagination => {
-  const {count} = pagination;
+ function percentile(nb,products){
+  let pos = Math.round(products.length * (1-(nb/100)));
+  let cop = JSON.parse(JSON.stringify(products)).sort((a, b) => a.price-b.price);
+  if (pos-1 < 0){ pos = 1;};
+  return cop[pos-1].price;
+  
+};
 
-  spanNbProducts.innerHTML = count;
+function sortDate(products){
+var sort = JSON.parse(JSON.stringify(products)).sort(function(a,b){
+  if (a.released<b.released) {
+    return -1;
+  } else {
+    return 1;
+};});
+return sort;
+}
+
+const renderIndicators = (pagination, products) => {
+spanNbNewProducts.innerHTML = products.filter(a => isNew(a) == "True").length;
+spanNbProducts.innerHTML = products.length;
+spanP50.innerHTML = percentile(50, products);
+spanP90.innerHTML = percentile(90, products);
+spanP95.innerHTML = percentile(95, products);
+let t = sortDate(products);
+spanLastRelease.innerHTML = t[t.length-1].released;
+
 };
 
 const render = (products, pagination) => {
-  renderProducts(products);
-  renderPagination(pagination);
-  renderIndicators(pagination);
+renderProducts(products);
+renderPagination(pagination);
+renderIndicators(pagination, products);
+const checkboxes = document.querySelectorAll("input[value=Favorite]");
+checkboxes.forEach(function(checkbox){
+  checkbox.addEventListener('change' ,function() {
+    let x = Array.from(checkboxes)
+    .filter(i => i.checked)
+    .map(i => i.id);
+
+    x.forEach(function(t){
+      setFavorite.add(t);
+      });
+    if (checkbox.checked == false)
+    {
+      setFavorite.delete(checkbox.id);
+    };
+  })
+});
 };
 
 /**
@@ -193,6 +231,8 @@ const render = (products, pagination) => {
 /**
  * Select the number of products to display
  */
+
+
 
 /*
 selectShow.addEventListener('change', event => {
