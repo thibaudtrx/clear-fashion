@@ -17,7 +17,29 @@ const selectPage = document.querySelector('#page-select');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
 const selectBrand = document.querySelector('#brand-select'); 
+const spanNbNewProducts = document.querySelector('#nbNewProducts')
+const spanP50 = document.querySelector('#p50');
+const spanP90 = document.querySelector('#p90');
+const spanP95 = document.querySelector('#p95');
+const spanLastRelease = document.querySelector('#last_release');
+const selectFilterRecent = document.querySelector('#recent-select');
+const selectFilterReasonable = document.querySelector('#reasonable-select');
+const selectFilterFavorite = document.querySelector("#favorite-select");
+const selectSort = document.querySelector('#sort-select');
 
+const date = new Date();
+function isNew(product){
+	const release = new Date(product.released);
+	var diff = Math.abs((date - release)/(7*24*60*60*1000));
+	//console.log(diff);
+	if (diff < 2) {
+		return "True";
+	}
+	else
+	{
+		return "False";
+	};
+}
 /**
  * Set global value
  * @param {Array} result - products to display
@@ -58,10 +80,46 @@ const fetchProducts = async (page = 1, size = 12) => {
     if (filterBrand!="noFilter"){
       body.data.result = groupbyBrand[filterBrand]
     }
+    if (filterReasonable == "yes"){
+      body.data.result = body.data.result.filter(a => a.price<50)
+    }
+    if (filterRecent == "yes"){
+      body.data.result = body.data.result.filter(a => isNew(a) == "True");
+    }
+    if (filterFavorite == "yes"){
+      body.data.result = body.data.result.filter(a => setFavorite.has(a._id) == true);
+    }
     if (body.success !== true) {
       console.error(body);
       return {currentProducts, currentPagination};
     }
+    switch(sortFilter){
+      case 'price-asc':
+        body.data.result = body.data.result.sort((a,b)=> a.price - b.price);
+        break;
+      case 'price-desc':
+        body.data.result = body.data.result.sort((a,b)=> b.price - a.price);
+        break;
+      case 'date-asc':
+        body.data.result = body.data.result.sort(function(a,b){
+          if (a.released<b.released) {
+            return -1;
+          } else {
+            return 1;
+        };});
+        break;
+      case 'date-desc':
+        body.data.result = body.data.result.sort(function(a,b){
+          if (a.released>b.released) {
+            return -1;
+          } else {
+            return 1;
+        };});
+        break;    
+    }
+ 
+    
+
 
     return body.data;
   } catch (error) {
