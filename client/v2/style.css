@@ -6,8 +6,9 @@ html, body {
     }
    body {
     background-color: rgb(200, 228, 148); 
-    font-family: Verdana, sans-serif; 
+    font-family: Trebuchet MS, sans-serif; 
     font-size: 100%;
+    
     
     }
 
@@ -15,6 +16,7 @@ html, body {
     font-size: 400%; 
     color: rgb(24, 17, 51); 
     text-align: center;
+    text-shadow: 0.05em 0.05em 0.05em black;
     background-image:url(vetements.jpg);
     }
    h2 {
